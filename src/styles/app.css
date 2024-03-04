@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+}
+
+body {
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-on-background));
+    height: 100vh;
+}
+
+body {
+    font-family: "LXGW WenKai Screen", sans-serif;
+}
+
+pre, code {
+    font-family: "LXGW WenKai Mono Screen", sans-serif;
+}

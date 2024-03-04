@@ -1,7 +1,7 @@
 /// <reference types="@solidjs/start/env" />
 
 interface ImportMetaEnv {
-    readonly MX_API_URL: string,
+    readonly VITE_MX_API_URL: string,
 }
 
 interface ImportMeta {

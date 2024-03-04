@@ -55,7 +55,7 @@ const AppHeader : Component<AppHeaderProps> = ({
             {/* MobileMenu */}
             {showMenu() && (
                 <div 
-                    class="absolute left-0 right-0 flex flex-col gap-3 py-3 bg-background items-center border-t top-16 border-b-2"
+                    class="absolute left-0 right-0 mx-8 flex flex-col gap-3 py-3 bg-background items-center border-t top-16 border-b-2"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="mobile-menu"

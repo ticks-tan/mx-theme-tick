@@ -10,7 +10,7 @@ export default function App() {
 	return (
 		<Router
 			root={(props) => (
-				<div class="h-screen max-w-screen overflow-x-hidden flex flex-col gap-4 px-4 md:px-32">
+				<div class="h-screen max-w-screen overflow-x-hidden flex flex-col gap-4 px-4 md:px-8 lg:mx-32">
 					<Suspense>{props.children}</Suspense>
 				</div>
 			)}

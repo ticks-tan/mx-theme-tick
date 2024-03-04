@@ -10,7 +10,6 @@ import { AppFooter, AppNavItem } from "~/config/app";
 import { cn } from "~/lib/utils";
 
 interface FooterProps {
-    nav?: AppNavItem[],
     config: AppFooter,
     className?: string,
 };
@@ -25,7 +24,6 @@ export const route = {
 
 const Footer : Component<FooterProps> = ({
     config,
-    nav,
     className
 }) => {
     const year = createAsync(() => getNowYear());
@@ -33,16 +31,17 @@ const Footer : Component<FooterProps> = ({
         <footer class={cn("min-h-16 flex flex-col items-center py-4", className)}>
             {/* 底部链接 */}
             <div class="flex items-center justify-center gap-2">
-                <For each={nav}>
+                <For each={config.nav}>
                     {(it, idx) => (
                         <>
                         <A 
                             href={it.href}
                             class=" hover:underline text-center"
+                            target={it.external ? "_blank" : ""}
                         >
                             {it.text}
                         </A>
-                        {idx() != nav!.length - 1 && (
+                        {idx() != config.nav.length - 1 && (
                             <div class="bg-on-background w-1.5 h-1.5 rounded-full"/>
                         )}
                         </>
@@ -57,7 +56,7 @@ const Footer : Component<FooterProps> = ({
             )}
             {/* Coyright */}
             <div class="flex items-center justify-center gap-4">
-                <span>©{config.startYear}{year() && (year() as number > config.startYear) && `-${year()}` }</span>
+                <span>©{config.year}{year() && (year() as number > config.year) && `-${year()}` }</span>
                 <span>|</span>
                 <span>Powered by <A href="https://github.com/mx-space" target="_blank" class="hover:underline hover:font-bold">Mix Space</A> and <A href="https://ticks.cc/tick-tan/mx-theme-tick" target="_blank" class="hover:font-bold hover:underline">tick</A></span>
             </div>

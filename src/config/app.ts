@@ -4,23 +4,25 @@
 
 // 导航栏配置
 export type AppNavItem = {
+    // 链接文字
     text: string,
+    // 链接
     href: string,
-};
-export type AppNav = {
-    top: AppNavItem[],
-    bottom: AppNavItem[],
+    // 是否为外部链接
+    external?: boolean,
 };
 
 // 页脚配置
 export type AppFooter = {
-    // 备案信息，备案名与链接
-    record?: {
-        name: string,
+    // 底部导航
+    nav: AppNavItem[],
+    // ICP备案信息，备案名与链接
+    icp?: {
+        text: string,
         link: string,
     }
     // 网站开始运行时间
-    startYear: number,
+    year: number,
     // 其他文字
     other?: string,
 }
@@ -49,7 +51,6 @@ export type AppHero = {
 
 
 export type AppConfig = {
-    nav: AppNav,
     footer: AppFooter,
     hero: AppHero,
 };

@@ -1,18 +1,47 @@
 import { A } from "@solidjs/router";
+import { For, lazy } from "solid-js";
+import { Dynamic } from "solid-js/web";
+import { clientOnly } from "@solidjs/start/.";
+import { cn } from "~/lib/utils";
 import { MetaProvider, Title } from "@solidjs/meta";
 
 import { useTheme } from "~/lib/theme";
 import Header from "~/components/layout/header/header";
 import Footer from "~/components/layout/footer/footer";
+import RecentPostList from "~/components/pages/home/post-list";
 import { AppFooter, AppHero, AppNavItem } from "~/config/app";
-import { For } from "solid-js";
-import { Dynamic } from "solid-js/web";
-import { cn } from "~/lib/utils";
 
-const demoNav: AppNavItem[] = [
+const demoHeaderNav: AppNavItem[] = [
 	{
-		href: "/",
-		text: "主页",
+		href: "/posts",
+		text: "文章",
+	},
+	{
+		href: "/notes",
+		text: "随记"
+	},
+	{
+		href: "/timeline",
+		text: "归档"
+	},
+	{
+		href: "/projects",
+		text: "项目"
+	}
+];
+
+const demoFooterNav: AppNavItem[] = [
+	{
+		href: "/feed",
+		text: "RSS",
+	},
+	{
+		href: "/friends",
+		text: "友链",
+	},
+	{
+		href: "/recently",
+		text: "动态",
 	},
 	{
 		href: "/about",
@@ -20,8 +49,9 @@ const demoNav: AppNavItem[] = [
 	},
 ];
 const demoFooterConf: AppFooter = {
-	startYear: 2023,
-	other: "你好，我是页脚",
+	nav: demoFooterNav,
+	year: 2023,
+	// other: "你好，我是页脚",
 };
 const demoHeroConf: AppHero = {
 	title: "嗨~",
@@ -69,9 +99,9 @@ export default function Home() {
 	return (
 		<MetaProvider>
 			<Title>博客 | 主页</Title>
-			<Header nav={demoNav} title='My Blog' className='shirk' />
-			<main class='mx-auto bg-background w-full grow px-4'>
-				<div class='mt-[120px] flex flex-col items-center sm:items-start'>
+			<Header nav={demoHeaderNav} title='My Blog' className='shirk' />
+			<main class='mx-auto bg-background w-full grow px-4 flex flex-col md:grid grid-cols-2'>
+				<div class='mt-[60px] md:mt-[120px] flex flex-col items-center sm:items-start'>
 					{demoHeroConf.title && demoHeroConf.title.length && (
 						<h1 class='max-6-xs text-5xl font-thin my-8'>
 							{demoHeroConf.title}
@@ -118,8 +148,12 @@ export default function Home() {
 						</div>
 					)}
 				</div>
+				<div class="mt-[80px] space-y-4">
+					<h1 class=" text-on-surface-variant">最近的文章</h1>
+					<RecentPostList />
+				</div>
 			</main>
-			<Footer nav={demoNav} config={demoFooterConf} className='shirk' />
+			<Footer config={demoFooterConf} className='shirk' />
 		</MetaProvider>
 	);
 }

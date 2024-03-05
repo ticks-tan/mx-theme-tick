@@ -1,1 +1,1 @@
-A simple blog theme for mx space.
+A simple blog theme for mix space.

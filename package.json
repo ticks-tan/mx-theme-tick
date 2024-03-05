@@ -1,32 +1,36 @@
 {
-  "name": "example-with-tailwindcss",
+  "name": "mx-theme-tick",
   "type": "module",
+  "version": "0.0.1",
   "scripts": {
-    "dev": "vinxi dev",
-    "build": "vinxi build",
-    "start": "vinxi start"
+    "dev": "vite",
+    "build": "vite build",
+    "start": "vite"
   },
   "dependencies": {
     "@mx-space/api-client": "1.8.0-beta.1",
     "@solidjs/meta": "^0.29.3",
-    "@solidjs/router": "^0.12.4",
-    "@solidjs/start": "^0.6.0",
+    "@solidjs/router": "^0.12.5",
     "@tanstack/solid-query": "^5.24.8",
-    "autoprefixer": "^10.4.18",
     "clsx": "^2.1.0",
-    "postcss": "^8.4.35",
     "solid-icons": "^1.1.0",
     "solid-js": "^1.8.15",
     "solidjs-use": "^2.3.0",
     "tailwind-merge": "^2.2.1",
-    "tailwindcss": "^3.4.1",
-    "umi-request": "^1.4.0",
-    "vinxi": "0.3.4"
+    "umi-request": "^1.4.0"
   },
   "engines": {
     "node": ">=18"
   },
   "devDependencies": {
-    "tailwind-material-colors": "^1.2.0"
+    "@types/node": "^20.11.24",
+    "autoprefixer": "^10.4.18",
+    "postcss": "^8.4.35",
+    "tailwind-material-colors": "^1.2.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.1.5",
+    "vite-plugin-pages": "^0.32.0",
+    "vite-plugin-solid": "^2.10.1"
   }
 }

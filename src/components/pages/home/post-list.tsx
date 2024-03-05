@@ -2,7 +2,7 @@
  * 主页最新文章组件
  */
 
-import { Component, For, Match, Switch, createResource } from "solid-js";
+import { Component, For, Match, Switch } from "solid-js";
 import { createQuery } from "@tanstack/solid-query";
 import { A } from "@solidjs/router";
 

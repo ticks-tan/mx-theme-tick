@@ -4,54 +4,9 @@ import { Dynamic } from "solid-js/web";
 import { cn } from "~/lib/utils";
 import { Title } from "@solidjs/meta";
 
-import { useTheme } from "~/lib/theme";
-import Header from "~/components/layout/header/header";
-import Footer from "~/components/layout/footer/footer";
 import RecentPostList from "~/components/pages/home/post-list";
-import { AppFooter, AppHero, AppNavItem } from "~/config/app";
+import { AppHero } from "~/config/app";
 
-const demoHeaderNav: AppNavItem[] = [
-	{
-		href: "/posts",
-		text: "文章",
-	},
-	{
-		href: "/notes",
-		text: "随记"
-	},
-	{
-		href: "/timeline",
-		text: "归档"
-	},
-	{
-		href: "/projects",
-		text: "项目"
-	}
-];
-
-const demoFooterNav: AppNavItem[] = [
-	{
-		href: "/feed",
-		text: "RSS",
-	},
-	{
-		href: "/friends",
-		text: "友链",
-	},
-	{
-		href: "/recently",
-		text: "动态",
-	},
-	{
-		href: "/about",
-		text: "关于",
-	},
-];
-const demoFooterConf: AppFooter = {
-	nav: demoFooterNav,
-	year: 2023,
-	// other: "你好，我是页脚",
-};
 const demoHeroConf: AppHero = {
 	title: "嗨~",
 	content: [
@@ -97,7 +52,6 @@ export default function Home() {
 	return (
 		<>
 			<Title>博客 | 主页</Title>
-			<Header nav={demoHeaderNav} title='My Blog' className='shirk' />
 			<main class='mx-auto bg-background w-full grow px-4 flex flex-col md:grid grid-cols-2'>
 				<div class='mt-[60px] md:mt-[120px] flex flex-col items-center sm:items-start'>
 					{demoHeroConf.title && demoHeroConf.title.length && (
@@ -151,7 +105,6 @@ export default function Home() {
 					<RecentPostList />
 				</div>
 			</main>
-			<Footer config={demoFooterConf} className='shirk' />
 		</>
 	);
 }

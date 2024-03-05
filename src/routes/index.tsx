@@ -1,9 +1,8 @@
 import { A } from "@solidjs/router";
-import { For, lazy } from "solid-js";
+import { For } from "solid-js";
 import { Dynamic } from "solid-js/web";
-import { clientOnly } from "@solidjs/start/.";
 import { cn } from "~/lib/utils";
-import { MetaProvider, Title } from "@solidjs/meta";
+import { Title } from "@solidjs/meta";
 
 import { useTheme } from "~/lib/theme";
 import Header from "~/components/layout/header/header";
@@ -94,10 +93,9 @@ const demoHeroConf: AppHero = {
 };
 
 export default function Home() {
-	const [theme, toggle] = useTheme();
 
 	return (
-		<MetaProvider>
+		<>
 			<Title>博客 | 主页</Title>
 			<Header nav={demoHeaderNav} title='My Blog' className='shirk' />
 			<main class='mx-auto bg-background w-full grow px-4 flex flex-col md:grid grid-cols-2'>
@@ -154,6 +152,6 @@ export default function Home() {
 				</div>
 			</main>
 			<Footer config={demoFooterConf} className='shirk' />
-		</MetaProvider>
+		</>
 	);
 }

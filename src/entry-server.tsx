@@ -1,6 +1,5 @@
 // @refresh reload
 import { createHandler, StartServer } from "@solidjs/start/server";
-import { MetaProvider } from "@solidjs/meta";
 
 export default createHandler(() => (
 	<StartServer
@@ -17,9 +16,7 @@ export default createHandler(() => (
 					{assets}
 				</head>
 				<body>
-					<MetaProvider>
-						{children}
-					</MetaProvider>
+					{children}
 					{/* <div id="app">{children}</div> */}
 					{scripts}
 				</body>

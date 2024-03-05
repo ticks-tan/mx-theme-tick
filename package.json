@@ -13,7 +13,6 @@
     "@solidjs/start": "^0.6.0",
     "@tanstack/solid-query": "^5.24.8",
     "autoprefixer": "^10.4.18",
-    "axios": "^1.6.7",
     "clsx": "^2.1.0",
     "postcss": "^8.4.35",
     "solid-icons": "^1.1.0",
@@ -21,6 +20,7 @@
     "solidjs-use": "^2.3.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "^3.4.1",
+    "umi-request": "^1.4.0",
     "vinxi": "0.3.4"
   },
   "engines": {

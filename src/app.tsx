@@ -1,15 +1,16 @@
-import { render } from "solid-js/web";
-import { Router } from "@solidjs/router";
 import { MetaProvider } from "@solidjs/meta";
 import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
+import { render } from "solid-js/web";
+import { Router } from "@solidjs/router";
 import routes from "~solid-pages";
+import { SolidQueryDevtools } from '@tanstack/solid-query-devtools'
 
 import "~/styles/app.css";
 import { useTheme } from "~/lib/theme";
 import Header from "~/components/layout/header/header";
 import Footer from "~/components/layout/footer/footer";
 import type { AppFooter, AppNavItem } from "~/config/app";
-import { ParentComponent } from "solid-js";
+import { ParentComponent, onMount } from "solid-js";
 
 const demoHeaderNav: AppNavItem[] = [
 	{
@@ -54,39 +55,45 @@ const demoFooterConf: AppFooter = {
 	// other: "你好，我是页脚",
 };
 
-const App : ParentComponent = props => {
-	const [_theme, _toggle] = useTheme();
-
-	const queryClient = new QueryClient({
-		defaultOptions: {
-			queries: {
-				staleTime: 5000,
-			},
+const queryClient =  new QueryClient({
+	defaultOptions: {
+		queries: {
+			staleTime: 30* 1000,
+			gcTime: 30* 1000,
 		},
+	},
+});
+
+const App : ParentComponent = props => {
+
+	onMount(() => {
+		useTheme();
 	});
 
 	return (
 		<QueryClientProvider client={queryClient}>
+			<SolidQueryDevtools initialIsOpen={true} position="right"/>
 			<MetaProvider>
-				<div class='h-screen max-w-screen overflow-x-hidden flex flex-col gap-4 px-4 md:px-8 lg:mx-32'>
+				<div class='h-screen max-w-screen overflow-x-hidden flex flex-col gap-4 px-4 md:px-8 lg:px-32'>
 					<Header
 						nav={demoHeaderNav}
 						title='My Blog'
 						className='shirk'
 					/>
 					{props.children}
-					<Footer config={demoFooterConf} className='shirk' />
+					<Footer config={demoFooterConf} className='shirk footer mt-auto' />
 				</div>
 			</MetaProvider>
 		</QueryClientProvider>
 	);
 };
 
+export default App;
+
 render(() => {
-	console.log(routes);
 	return (
 		<Router root={App}>
 			{routes}
 		</Router>
-	);
+	)
 }, document.body);

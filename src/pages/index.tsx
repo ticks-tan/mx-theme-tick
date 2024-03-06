@@ -6,6 +6,7 @@ import { Title } from "@solidjs/meta";
 
 import RecentPostList from "~/components/pages/home/post-list";
 import { AppHero } from "~/config/app";
+import MainBox from "~/components/layout/main/main-box";
 
 const demoHeroConf: AppHero = {
 	title: "嗨~",
@@ -52,7 +53,7 @@ export default function Home() {
 	return (
 		<>
 			<Title>博客 | 主页</Title>
-			<main class='mx-auto bg-background w-full grow px-4 flex flex-col md:grid grid-cols-2'>
+			<MainBox className='mx-auto bg-background w-full px-4 flex flex-col md:grid grid-cols-2'>
 				<div class='mt-[60px] md:mt-[120px] flex flex-col items-center sm:items-start'>
 					{demoHeroConf.title && demoHeroConf.title.length && (
 						<h1 class='max-6-xs text-5xl font-thin my-8'>
@@ -104,7 +105,7 @@ export default function Home() {
 					<h1 class=" text-on-surface-variant">最近的文章</h1>
 					<RecentPostList />
 				</div>
-			</main>
+			</MainBox>
 		</>
 	);
 }

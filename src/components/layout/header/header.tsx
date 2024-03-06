@@ -1,5 +1,6 @@
 import { A, useLocation } from "@solidjs/router";
-import { Component, For, createSignal } from "solid-js";
+import { Component, For, createEffect, createSignal, onMount } from "solid-js";
+import { useWindowScroll } from "solidjs-use";
 
 
 import { Menu } from "~/components/ui/icon";
@@ -20,6 +21,14 @@ const AppHeader : Component<AppHeaderProps> = ({
 }) => {
 	const location = useLocation();
     const [showMenu, setShowMenu] = createSignal<boolean>(false);
+    const [top, setTop] = createSignal(false);
+
+    const {x, y} = useWindowScroll();
+
+    createEffect(() => {
+        setTop(y() < 10);
+    })
+
     const toggleShowMenu = () => {
         setShowMenu(!showMenu());
     };
@@ -30,16 +39,21 @@ const AppHeader : Component<AppHeaderProps> = ({
     );
 
 	return (
-		<nav class={cn("flex items-center gap-4 justify-between md:justify-around px-4 w-full h-16", className)}>
+        <header attr:data-testid="useWindowScroll" aria-label="Header" class={cn("bg-surface sticky top-0 z-[99]", !top() && " border-b")}>
+		<div class={cn("flex items-center gap-4 justify-between px-4 w-full h-16", className)}>
             <A href="/" class="bg-gradient-to-r bg-clip-text from-tertiary to-secondary via-primary text-transparent text-lg font-bold p-2">{title}</A>
-			<div class='items-center p-2 hidden md:flex grow'>
+			<div class='p-2 hidden md:block'>
+                <nav aria-label="Global">
+                    <ul class="flex items-center">
                 <For each={nav}>
                     {(it) => (
-                        <div class={cn("border-b-2", "mx-1.5", "md:mx-4", active(it.href))}>
+                        <li class={cn("border-b-2", "mx-1.5", "md:mx-4", active(it.href))}>
                             <A href={it.href}>{it.text}</A>
-                        </div>
+                        </li>
                     )}
                 </For>
+                </ul>
+                </nav>
 			</div>
             <ThemeToggle className="hidden md:flex"/>
             {/* Menu */}
@@ -55,7 +69,7 @@ const AppHeader : Component<AppHeaderProps> = ({
             {/* MobileMenu */}
             {showMenu() && (
                 <div 
-                    class="absolute left-0 right-0 mx-8 flex flex-col gap-3 py-3 bg-background items-center border-t top-16 border-b-2"
+                    class="absolute left-0 right-0 mx-8 flex flex-col gap-3 py-3 bg-background items-center border-t top-16 border-b-2 z-[99]"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="mobile-menu"
@@ -71,7 +85,8 @@ const AppHeader : Component<AppHeaderProps> = ({
                 </div>
             )}
 
-		</nav>
+		</div>
+        </header>
 	);
 }
 

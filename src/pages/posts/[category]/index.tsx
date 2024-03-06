@@ -6,8 +6,8 @@
 export default function PostCategoryPage() {
     return (
         <>
-        <main>
-            <p>Hello World</p>
+        <main class="grow">
+            <p>分类文章</p>
         </main>
         </>
     )

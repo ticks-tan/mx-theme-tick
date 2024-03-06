@@ -10,7 +10,11 @@ import { MXApi } from "~/lib/request";
 import { FormatData, cn } from "~/lib/utils";
 
 async function fetchRecentPostList() {
-	return await MXApi.post.getList(1, 10);
+	"use server";
+	return await MXApi.post.getList(1, 10, {
+		sortBy: "created",
+		sortOrder: -1
+	});
 }
 
 interface PostListProps {
@@ -19,9 +23,11 @@ interface PostListProps {
 
 const PostList: Component<PostListProps> = ({ className }) => {
 	const query = createQuery(() => ({
-		queryKey: ["home-recent-post-list"],
+		queryKey: ["post-page-list", "sort-created"],
 		queryFn: fetchRecentPostList,
 		deferStream: true,
+		gcTime: 60* 1000,
+		staleTime: 60 * 1000,
 	}));
 
 	return (

@@ -9,6 +9,7 @@ import {
     FiChevronUp,
     FiMenu,
     FiTag,
+    FiEye,
 } from 'solid-icons/fi';
 import {
     WiTime4
@@ -27,6 +28,7 @@ export const AppIcons = {
     Up: FiChevronUp,
     Menu: FiMenu,
     Tag: FiTag,
+    Eye: FiEye,
     Time: WiTime4,
     Article: TbArticle,
     FileDir: OcFiledirectory3,
@@ -39,6 +41,7 @@ export {
     FiChevronUp as Up,
     FiMenu as Menu,
     FiTag as Tag,
+    FiEye as Eye,
     WiTime4 as Time,
     TbArticle as Article,
     OcFiledirectory3 as FileDir,

@@ -1,0 +1,9 @@
+/* 文章详情页相关样式 */
+
+pre {
+    background-color: rgb(var(--color-surface-variant));
+}
+
+code.hljs {
+    background-color: rgb(var(--color-surface-variant));
+}

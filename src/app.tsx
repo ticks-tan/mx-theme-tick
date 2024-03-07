@@ -74,14 +74,14 @@ const App : ParentComponent = props => {
 		<QueryClientProvider client={queryClient}>
 			<SolidQueryDevtools initialIsOpen={true} position="right"/>
 			<MetaProvider>
-				<div class='h-screen max-w-screen overflow-x-hidden flex flex-col gap-4 px-4 md:px-8 lg:px-32'>
+				<div class='min-h-screen flex flex-col'>
 					<Header
 						nav={demoHeaderNav}
 						title='My Blog'
-						className='shirk'
+						className="sticky top-0 z-40 w-full"
 					/>
 					{props.children}
-					<Footer config={demoFooterConf} className='shirk footer mt-auto' />
+					<Footer config={demoFooterConf} className='footer mt-auto' />
 				</div>
 			</MetaProvider>
 		</QueryClientProvider>

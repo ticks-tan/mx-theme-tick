@@ -1,0 +1,190 @@
+/* 文章详情页相关样式 */
+@tailwind base;
+@tailwind utilities;
+@tailwind variants;
+
+@import "./heti.css";
+
+#markdown-show-box {
+	@apply text-base font-normal subpixel-antialiased leading-6 px-2;
+	@apply scroll-smooth break-words hyphens-auto;
+	@apply before:content-none before:table after:table after:content-none after:clear-both;
+
+	& > *:first-child,
+	section > *:first-child,
+	td > *:first-child {
+		margin-block-end: 0 !important;
+	}
+
+	& > *:last-child,
+	section > *:last-child,
+	.td > *:last-child {
+		margin-block-end: 0 !important;
+	}
+
+	h1 {
+		padding: 5% 4% 4% 4%;
+		text-align: center;
+		margin-top: 3rem;
+		margin-bottom: 1.5rem;
+		font-size: 2.4rem;
+		border: 4px solid rgb(var(--color-primary));
+	}
+
+	h2 {
+		content: "";
+		text-align: center;
+		font-size: 2.1rem;
+		@apply pb-10 mt-10 mx-[10%];
+	}
+
+	h2:after {
+		content: "";
+		/* height: 1px; */
+		width: 70%;
+		display: block;
+		margin: 0.4em auto 0 auto;
+		border-bottom: 2px solid rgb(var(--color-primary));
+	}
+
+	h3 {
+		margin-top: 1.5rem;
+		margin-bottom: 0.5em;
+		font-size: 1.8rem;
+		@apply my-6;
+
+		&::before {
+			content: "";
+			width: 1px;
+			padding-left: 1rem;
+			border-left: 2px solid rgb(var(--color-primary));
+		}
+		&::after {
+			content: "";
+			width: 1px;
+			padding-right: 1rem;
+			border-right: 2px solid rgb(var(--color-primary));
+		}
+	}
+
+	h4 {
+		@apply text-on-background my-4 text-[1.6rem];
+
+		&::after {
+			@apply content-none h-[1px] border-b-2 border-primary border-dashed;
+			padding: 1px 0 0.1em 0;
+		}
+	}
+
+	h5 {
+		@apply text-on-background my-4 text-[1.4rem];
+	}
+
+	h6 {
+		@apply text-on-background my-4 text-[1.2rem];
+		font-style: oblique;
+	}
+
+	:is(h2, h3, h4, h5, h6)::before {
+		/* paragraph symbol */
+		content: "##";
+		margin-right: 0.5rem;
+		color: var(--blur-text-color);
+	}
+	:is(h2)::before {
+		content: "#";
+	}
+
+	blockquote {
+		@apply my-4 mx-auto py-[20px] px-[30px] bg-background-hover rounded border-l-4 border-on-background/60;
+		@apply relative z-0 transition-all duration-200;
+		z-index: 0;
+
+		&:hover {
+			@apply border-on-background;
+		}
+
+		& > :is(p, ol, ul, pre, table):first-child::before {
+			content: "";
+			position: absolute;
+			display: block;
+			top: -30px;
+			right: -20px;
+			font-size: 2.4rem;
+			opacity: 0.2;
+			@apply text-on-background/90;
+		}
+	}
+
+	table {
+		@apply my-4;
+	}
+	table tr:nth-child(2n),
+	thead {
+		@apply bg-surface-variant-hover/60;
+	}
+	td,
+	th {
+		@apply border-on-background/80 border border-solid my-4;
+		padding: 0.35rem 0.7rem;
+	}
+
+	ul {
+		@apply list-disc my-4;
+	}
+	ol {
+		@apply list-decimal my-4;
+	}
+
+	ol > li::marker,
+	ul > li::marker {
+		@apply text-primary font-bold;
+	}
+
+	p {
+		margin: 1rem 0;
+	}
+
+    hr {
+        @apply my-10 border-dashed;
+    }
+
+    a {
+        @apply text-tertiary;
+    }
+
+	figure {
+		@apply block text-center;
+
+		img {
+			@apply block ms-auto me-auto;
+		}
+	}
+
+	// tr {
+	// 	@apply w-[50%] h-[1px] ms-auto me-auto border-none bg-background-hover;
+	// 	margin-block-start: 48px;
+	// 	margin-block-end: 47px;
+	// }
+
+	font-family: "LXGW WenKai Screen", sans-serif;
+	letter-spacing: 0.02em;
+
+	pre,
+	code {
+		font-family: "LXGW WenKai Mono Screen", sans-serif;
+	}
+
+	pre {
+		@apply bg-background p-4 my-[2rem] border-2 rounded-md mx-auto;
+		@apply max-w-[90%] max-h-[32rem] overflow-x-auto overflow-y-auto;
+	}
+
+	code:not(.hljs) {
+		@apply bg-background-press px-1 rounded inline-flex items-center justify-center;
+	}
+
+	pre code.hljs {
+		@apply bg-background;
+	}
+}

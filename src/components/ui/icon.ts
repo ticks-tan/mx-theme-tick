@@ -20,6 +20,12 @@ import {
 import { 
     OcFiledirectory3
 } from 'solid-icons/oc';
+import {
+    FaSolidPenClip
+} from 'solid-icons/fa'
+import {
+    RiSystemErrorWarningFill
+} from 'solid-icons/ri'
 
 export const AppIcons = {
     Sun: FiSun,
@@ -32,6 +38,8 @@ export const AppIcons = {
     Time: WiTime4,
     Article: TbArticle,
     FileDir: OcFiledirectory3,
+    Pen: FaSolidPenClip,
+    Warnning: RiSystemErrorWarningFill,
 };
 
 export {
@@ -45,4 +53,6 @@ export {
     WiTime4 as Time,
     TbArticle as Article,
     OcFiledirectory3 as FileDir,
+    FaSolidPenClip as Pen,
+    RiSystemErrorWarningFill as Warnning,
 };

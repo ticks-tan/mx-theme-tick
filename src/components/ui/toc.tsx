@@ -3,6 +3,7 @@
  */
 
 import {
+	Accessor,
 	Component,
 	For,
 	createEffect,
@@ -10,7 +11,7 @@ import {
 	createSignal,
 	onCleanup,
 } from "solid-js";
-import { useMounted } from "solidjs-use";
+import { useMounted, useIntersectionObserver } from "solidjs-use";
 
 import { TableOfContents } from "~/lib/toc";
 import { cn } from "~/lib/utils";
@@ -21,6 +22,8 @@ interface TocProps {
 }
 
 const Toc: Component<TocProps> = ({ toc, className }) => {
+	const [activeId, setActiveId] = createSignal<string>("");
+
 	const itemIds = createMemo(() => {
 		return toc.items
 			? toc.items
@@ -31,21 +34,45 @@ const Toc: Component<TocProps> = ({ toc, className }) => {
 					.flat()
 					.filter(Boolean)
 					.map((id) => id?.split("#")[1])
+					.map((id) => {
+						const [el] = createSignal<HTMLElement | null>(
+							document.getElementById(id)
+						);
+						return el;
+					})
 			: [];
 	});
 
-	const activeHeading = useActiveItem(itemIds());
+	// createEffect(() => {
+	// 	itemIds()?.forEach((el) => {
+	// 		if (!el()) {
+	// 			return;
+	// 		}
+	// 		useIntersectionObserver(
+	// 			el,
+	// 			([{ isIntersecting }]) => {
+	// 				if (isIntersecting) {
+	// 					setActiveId(el().getAttribute("id"));
+	// 				}
+	// 			},
+	// 			{
+	// 				rootMargin: "0% 0% -80% 0%",
+	// 			}
+	// 		);
+	// 	});
+	// });
+
 	const isMounted = useMounted();
 
 	return isMounted ? (
-		<div class='space-y-2'>
-			<p class='font-medium'>On This Page</p>
-			<Tree tree={toc} activeItem={activeHeading()} />
+		<div class={cn("space-y-2", className)}>
+			<p class='font-bold text-lg'>目录</p>
+			<Tree tree={toc} activeItem={activeId()} />
 		</div>
 	) : null;
 };
 
-function useActiveItem(itemIds: (string | undefined)[]) {
+function useActiveItem(itemIds: Accessor<(string | undefined)[]>) {
 	const [activeId, setActiveId] = createSignal<string>("");
 
 	createEffect(() => {
@@ -60,7 +87,7 @@ function useActiveItem(itemIds: (string | undefined)[]) {
 			{ rootMargin: `0% 0% -80% 0%` }
 		);
 
-		itemIds?.forEach((id) => {
+		itemIds()?.forEach((id) => {
 			if (!id) {
 				return;
 			}
@@ -72,7 +99,7 @@ function useActiveItem(itemIds: (string | undefined)[]) {
 		});
 
 		onCleanup(() => {
-			itemIds?.forEach((id) => {
+			itemIds()?.forEach((id) => {
 				if (!id) {
 					return;
 				}
@@ -107,7 +134,7 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
 									"inline-block no-underline",
 									item.url === `#${activeItem}`
 										? "font-medium text-primary"
-										: "text-sm text-muted-foreground"
+										: "text-sm text-on-background"
 								)}
 							>
 								{item.title}
@@ -126,3 +153,5 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
 		</ul>
 	) : null;
 }
+
+export default Toc;

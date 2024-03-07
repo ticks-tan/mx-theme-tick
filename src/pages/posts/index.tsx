@@ -11,6 +11,11 @@ import { MXApi } from "~/lib/request";
 import PostItem from "~/components/pages/posts/post-item";
 import { cn, mdSummary } from "~/lib/utils";
 import MainBox from "~/components/layout/main/main-box";
+import { useUrlSearchParams } from "solidjs-use";
+
+interface PostsPageUrlParams  {
+	page?: number,
+}
 
 async function fetchPagePostList(page: number, limit: number) {
 	return await MXApi.post.getList(page, limit, {
@@ -24,8 +29,10 @@ const Loading = () => {
 };
 
 export default function PostsListPage() {
+	// 读取URL参数
+	const [params, setParams] = useUrlSearchParams<PostsPageUrlParams>("hash-params");
 	// 当前分页数
-	const [page, setPage] = createSignal<number>(1);
+	const page = createMemo(() => params().page || 1);
 
 	const postQuery = createQuery(() => ({
 		queryKey: ["post-page-list", "sort-modify", page()],
@@ -43,12 +50,12 @@ export default function PostsListPage() {
 			: [];
 	});
 
-	const nextPage = () => {
-		setPage(page() + 1);
-	};
-	const prevPage = () => {
-		setPage(page() - 1);
-	};
+	// const nextPage = () => {
+	// 	setPage(page() + 1);
+	// };
+	// const prevPage = () => {
+	// 	setPage(page() - 1);
+	// };
 
 	return (
 		<>
@@ -72,7 +79,7 @@ export default function PostsListPage() {
 								<li class='relative p-4'>
 									{postQuery.data.pagination.hasPrevPage && (
 										<button
-											onClick={prevPage}
+											onClick={() => setParams({page: page() - 1})}
 											class='float-start text-lg underline transition hover:text-primary'
 										>
 											上一页
@@ -80,7 +87,7 @@ export default function PostsListPage() {
 									)}
 									{postQuery.data.pagination.hasNextPage && (
 										<button
-											onClick={nextPage}
+											onClick={() => setParams({page: page() + 1})}
 											class='float-end text-lg underline transition hover:text-primary'
 										>
 											下一页

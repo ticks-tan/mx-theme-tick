@@ -3,21 +3,46 @@
 @tailwind utilities;
 
 html {
-    padding: 0;
-    margin: 0;
-    height: 100vh;
+	padding: 0;
+	margin: 0;
+	height: 100vh;
+	@apply scrollbar-thin scrollbar-thumb-background-press/60 scrollbar-track-transparent scrollbar-thumb-rounded-[10px];
+
+	&:hover {
+		@apply scrollbar-thumb-secondary-hover/60;
+	}
 }
 
 body {
-    background-color: rgb(var(--color-background));
-    color: rgb(var(--color-on-background));
-    height: 100vh;
+	background-color: rgb(var(--color-background));
+	color: rgb(var(--color-on-background));
+	height: 100vh;
 }
 
 body {
-    font-family: "LXGW WenKai Screen", sans-serif;
+	font-family: "LXGW WenKai Screen", sans-serif;
 }
 
-pre, code {
-    font-family: "LXGW WenKai Mono Screen", sans-serif;
+pre,
+code {
+	font-family: "LXGW WenKai Mono Screen", sans-serif;
 }
+
+pre {
+	@apply scrollbar-thin scrollbar-thumb-background-press/60 scrollbar-track-transparent scrollbar-thumb-rounded-[10px];
+
+	&:hover {
+		@apply scrollbar-thumb-secondary-hover/60;
+	}
+}
+
+/* *::-webkit-scrollbar {
+	@apply w-[10px] h-[10px];
+}
+
+*::-webkit-scrollbar-thumb {
+    @apply bg-background-drag rounded-[10px];
+}
+*::-webkit-scrollbar-thumb:hover {
+	@apply bg-primary-hover;
+} */

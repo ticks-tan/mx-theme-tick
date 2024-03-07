@@ -6,7 +6,7 @@ interface MainBoxProps {
 }
 
 const MainBox: ParentComponent<MainBoxProps> = ({ children, className }) => {
-	return <main class={cn('grow', className)}>{children}</main>;
+	return <div class={cn('container flex-1', className)}>{children}</div>;
 };
 
 export default MainBox;

@@ -5,6 +5,8 @@
 import { toc } from "mdast-util-toc";
 import { remark } from "remark";
 import { visit } from "unist-util-visit";
+import { parse } from "node-html-parser";
+import Slugger from "github-slugger";
 
 const textTypes = ["text", "emphasis", "strong", "inlineCode"];
 
@@ -80,4 +82,16 @@ export async function getTableOfContents(
 	const result = await remark().use(getToc).process(content);
 
 	return result.data;
+}
+
+export async function genHtmlAnchor(html: string) {
+	const root = parse(html);
+	const slugger = new Slugger();
+
+	for (const h of root.querySelectorAll("h1, h2, h3, h4")) {
+		const slug = h.getAttribute("id") || slugger.slug(h.textContent);
+		h.setAttribute("id", slug);
+		h.innerHTML = `<a href="#${slug}">${h.innerHTML}</a>`;
+	}
+	return root.toString();
 }

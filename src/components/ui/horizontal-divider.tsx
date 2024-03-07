@@ -17,3 +17,5 @@ const HorizontalDivider: ParentComponent<DividerProps> = ({ children, className 
 		</span>
 	);
 };
+
+export default HorizontalDivider;

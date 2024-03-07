@@ -1,6 +1,6 @@
 import { A, useLocation } from "@solidjs/router";
-import { Component, For, createEffect, createSignal, onMount } from "solid-js";
-import { useWindowScroll } from "solidjs-use";
+import { Component, For, createEffect, createSignal } from "solid-js";
+import { useWindowScroll, useElementVisibility, useMediaQuery } from "solidjs-use";
 
 
 import { Menu } from "~/components/ui/icon";
@@ -21,13 +21,21 @@ const AppHeader : Component<AppHeaderProps> = ({
 }) => {
 	const location = useLocation();
     const [showMenu, setShowMenu] = createSignal<boolean>(false);
+    const [el, setEl] = createSignal<HTMLDivElement>();
     const [top, setTop] = createSignal(false);
 
-    const {x, y} = useWindowScroll();
+    const {y} = useWindowScroll();
+    const isMdScreen = useMediaQuery("(min-width: 768px)");
+    const isMenuVisibilty = useElementVisibility(el);
 
     createEffect(() => {
         setTop(y() < 10);
-    })
+    });
+    createEffect(() => {
+        if (!isMenuVisibilty() && isMdScreen()) {
+            setShowMenu(false);
+        }
+    });
 
     const toggleShowMenu = () => {
         setShowMenu(!showMenu());
@@ -39,8 +47,8 @@ const AppHeader : Component<AppHeaderProps> = ({
     );
 
 	return (
-        <header attr:data-testid="useWindowScroll" aria-label="Header" class={cn("bg-surface sticky top-0 z-[99]", !top() && " border-b")}>
-		<div class={cn("flex items-center gap-4 justify-between px-4 w-full h-16", className)}>
+        <header attr:data-testid="useWindowScroll" aria-label="Header" class={cn("bg-surface", className, !top() && "shadow-sm shadow-on-background/40 border-b-0.5")}>
+		<div class={cn("flex items-center gap-4 justify-between px-4 w-full h-16")}>
             <A href="/" class="bg-gradient-to-r bg-clip-text from-tertiary to-secondary via-primary text-transparent text-lg font-bold p-2">{title}</A>
 			<div class='p-2 hidden md:block'>
                 <nav aria-label="Global">
@@ -69,7 +77,8 @@ const AppHeader : Component<AppHeaderProps> = ({
             {/* MobileMenu */}
             {showMenu() && (
                 <div 
-                    class="absolute left-0 right-0 mx-8 flex flex-col gap-3 py-3 bg-background items-center border-t top-16 border-b-2 z-[99]"
+                    ref={setEl}
+                    class="absolute md:hidden left-0 right-0 flex flex-col gap-3 py-3 bg-background items-center border-t top-16 border-b-2 z-50"
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="mobile-menu"

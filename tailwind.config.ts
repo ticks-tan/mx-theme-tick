@@ -28,7 +28,7 @@ const twConfig : Config = {
 		files: [
 			'./src/*.{html,js}',
 			"./index.html",
-			"./src/**/*.{html,js,jsx,ts,tsx, scss}"
+			"./src/**/*.{html,js,jsx,ts,tsx, scss}",
 		],
 	},
 };

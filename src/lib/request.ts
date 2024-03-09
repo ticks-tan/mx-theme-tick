@@ -13,4 +13,5 @@ const MXApi = createClient(umiAdaptor)(apiConfig.mx_api_url);
 
 MXApi.injectControllers(allControllers);
 
+
 export { MXApi };

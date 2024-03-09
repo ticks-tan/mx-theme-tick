@@ -12,12 +12,14 @@ export default createHandler(() => (
 						content='width=device-width, initial-scale=1'
 					/>
 					<link rel='icon' href='/favicon.ico' />
-					<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
+					<link
+						rel='stylesheet'
+						href='https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css'
+					/>
 					{assets}
 				</head>
 				<body>
 					{children}
-					{/* <div id="app">{children}</div> */}
 					{scripts}
 				</body>
 			</html>

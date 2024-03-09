@@ -1,15 +1,11 @@
-import solidPlugin from "vite-plugin-solid";
+// import solidPlugin from "vite-plugin-solid";
 import pagePlugin from "vite-plugin-pages";
+import vercel from "solid-start-vercel";
 import { defineConfig } from "vite";
 import { resolve } from "path";
 
 export default defineConfig({
 	plugins: [
-		solidPlugin({
-			ssr: true,
-            hot: true,
-            dev: true,
-		}),
 		pagePlugin({
 			dirs: [{ dir: "./src/pages", baseRoute: "" }],
 			routeStyle: "next",

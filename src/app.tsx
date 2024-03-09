@@ -1,16 +1,15 @@
 import { MetaProvider } from "@solidjs/meta";
-import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
-import { render } from "solid-js/web";
 import { Router } from "@solidjs/router";
-import routes from "~solid-pages";
-import { SolidQueryDevtools } from '@tanstack/solid-query-devtools'
+import { updateTheme } from "tailwind-material-colors/lib/updateTheme.esm";
 
 import "~/styles/app.css";
 import { useTheme } from "~/lib/theme";
 import Header from "~/components/layout/header/header";
 import Footer from "~/components/layout/footer/footer";
 import type { AppFooter, AppNavItem } from "~/config/app";
-import { ParentComponent, onMount } from "solid-js";
+import { ParentComponent, Suspense, onMount } from "solid-js";
+import { generateRandomColor } from "./lib/utils";
+import { FileRoutes } from "@solidjs/start/router";
 
 const demoHeaderNav: AppNavItem[] = [
 	{
@@ -55,24 +54,17 @@ const demoFooterConf: AppFooter = {
 	// other: "你好，我是页脚",
 };
 
-const queryClient =  new QueryClient({
-	defaultOptions: {
-		queries: {
-			staleTime: 30* 1000,
-			gcTime: 30* 1000,
-		},
-	},
-});
-
 const App : ParentComponent = props => {
 
 	onMount(() => {
 		useTheme();
+		const priamryColor = generateRandomColor();
+		updateTheme({
+			primary: priamryColor,
+		}, "class");
 	});
 
 	return (
-		<QueryClientProvider client={queryClient}>
-			<SolidQueryDevtools initialIsOpen={true} position="right"/>
 			<MetaProvider>
 				<div class='min-h-screen flex flex-col'>
 					<Header
@@ -80,20 +72,19 @@ const App : ParentComponent = props => {
 						title='My Blog'
 						className="sticky top-0 z-40 w-full"
 					/>
-					{props.children}
+					<Suspense>
+						{props.children}
+					</Suspense>
 					<Footer config={demoFooterConf} className='footer mt-auto' />
 				</div>
 			</MetaProvider>
-		</QueryClientProvider>
 	);
 };
 
-export default App;
-
-render(() => {
+export default function MainApp() {
 	return (
 		<Router root={App}>
-			{routes}
+			<FileRoutes />
 		</Router>
-	)
-}, document.body);
+	);
+}

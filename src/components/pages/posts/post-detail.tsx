@@ -2,7 +2,7 @@
  * 文章详情，用于渲染Markdown
  */
 
-import { Component, For, Show, createEffect, createMemo, onMount } from "solid-js";
+import { Component, For, Show, createMemo, onMount } from "solid-js";
 import { unified } from "unified";
 import gfmPlugin from "remark-gfm";
 import remarkParser from "remark-parse";
@@ -14,7 +14,7 @@ import { Link } from "@solidjs/meta";
 import { useMounted } from "solidjs-use";
 import { A, createAsync } from "@solidjs/router";
 import type { ModelWithLiked, PostModel } from "@mx-space/api-client";
-import Heti from "heti/js/heti-addon";
+// import Heti from "heti/js/heti-addon";
 
 import { useTheme } from "~/lib/theme";
 import { genHtmlAnchor } from "~/lib/toc";
@@ -28,17 +28,25 @@ interface PostDetailProps {
 }
 
 async function processMarkdown(md: string) {
-	// 处理Markdown文件并生成html页面
-	const html = await unified()
-		.use(remarkParser)
-		.use(gfmPlugin)
-		.use(katexPlugin)
-		.use(rehypePlugin)
-		.use(rehypeStringify)
-		.use(rehypeHighlight)
-		.process(md);
-	// 处理html页面锚点
-	return await genHtmlAnchor(String(html));
+	if (!md.length) {
+		return "";
+	}
+	try {
+		// 处理Markdown文件并生成html页面
+		const html = await unified()
+			.use(remarkParser)
+			.use(gfmPlugin)
+			.use(katexPlugin)
+			.use(rehypePlugin)
+			.use(rehypeStringify)
+			.use(rehypeHighlight)
+			.process(md);
+		// 处理html页面锚点
+		return await genHtmlAnchor(String(html));
+	} catch (e) {
+		console.log(`parse markdown error: ${e}`);
+		return "";
+	}
 }
 
 const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
@@ -48,17 +56,6 @@ const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
 	// 异步处理Markdown
 	const htmlFile = createAsync(async () => {
 		return await processMarkdown(info.text);
-	});
-
-	// Markdown插入节点
-	let mdBox: HTMLDivElement | undefined;
-
-	createEffect(() => {
-		if (mdBox != undefined && htmlFile()) {
-			mdBox.innerHTML = htmlFile();
-			const heti = new Heti(".heti");
-			heti.autoSpacing();
-		}
 	});
 
 	// 文章是否过期
@@ -129,23 +126,25 @@ const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
 						</div>
 					</div>
 					{/* 标签与分类信息 */}
-					<div class="flex flex-wrap items-center justify-center gap-4 mt-4 mb-32">
+					<div class='flex flex-wrap items-center justify-center gap-4 mt-4 mb-32'>
 						{/* 分类 */}
-						<div class="inline-flex items-center justify-center">
-							<FileDir class="h-4 w-4 mr-2"/>
-							<span><A href={`/category/${info.category.slug}/`}>{info.category.name}</A></span>
+						<div class='inline-flex items-center justify-center'>
+							<FileDir class='h-4 w-4 mr-2' />
+							<span>
+								<A href={`/category/${info.category.slug}/`}>
+									{info.category.name}
+								</A>
+							</span>
 						</div>
 						{/* 标签 */}
 						<Show when={info.tags.length}>
-							<div class="inline-flex items-center justify-center">
-								<Tag class="w-4 h-4 mr-2"/>
+							<div class='inline-flex items-center justify-center'>
+								<Tag class='w-4 h-4 mr-2' />
 								<For each={info.tags}>
 									{(tag) => (
-									<span>
-										<A href={`/tags/${tag}`}>
-											{tag}
-										</A>
-									</span>
+										<span>
+											<A href={`/tags/${tag}`}>{tag}</A>
+										</span>
 									)}
 								</For>
 							</div>
@@ -153,13 +152,13 @@ const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
 					</div>
 					{/* 过时提醒 */}
 					<Show when={postOld()}>
-						<OldNotice oldDate={FormatData(info.modified)}/>
+						<OldNotice oldDate={FormatData(info.modified)} />
 					</Show>
 					{/* 文章内容 */}
 					<div
 						id='markdown-show-box'
 						class='heti'
-						ref={mdBox}
+						innerHTML={htmlFile()}
 					></div>
 				</div>
 			</div>
@@ -183,7 +182,7 @@ const OldNotice: Component<OldNoticeProps> = ({ oldDate }) => {
 				"before:content-none"
 			)}
 		>
-			<Warnning class="w-8 h-8 mr-2"/>
+			<Warnning class='w-8 h-8 mr-2' />
 			{`本文最后修改于 ${oldDate} ，其中信息可能已经过时，请酌情参考！`}
 		</blockquote>
 	);

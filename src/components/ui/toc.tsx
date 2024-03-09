@@ -11,7 +11,7 @@ import {
 	createSignal,
 	onCleanup,
 } from "solid-js";
-import { useMounted, useIntersectionObserver } from "solidjs-use";
+import { useMounted } from "solidjs-use";
 
 import { TableOfContents } from "~/lib/toc";
 import { cn } from "~/lib/utils";

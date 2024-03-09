@@ -106,6 +106,7 @@ export default function Home() {
 					<RecentPostList />
 				</div>
 			</MainBox>
+			<div></div>
 		</>
 	);
 }

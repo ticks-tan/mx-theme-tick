@@ -28,7 +28,7 @@ interface TocItem {
 	items?: TocItem[];
 }
 
-interface TocItems {
+export type TocItems = {
 	items?: TocItem[];
 }
 
@@ -85,13 +85,20 @@ export async function getTableOfContents(
 }
 
 export async function genHtmlAnchor(html: string) {
-	const root = parse(html);
-	const slugger = new Slugger();
-
-	for (const h of root.querySelectorAll("h1, h2, h3, h4")) {
-		const slug = h.getAttribute("id") || slugger.slug(h.textContent);
-		h.setAttribute("id", slug);
-		h.innerHTML = `<a href="#${slug}">${h.innerHTML}</a>`;
+	if (!html.length) {
+		return "";
 	}
-	return root.toString();
+	try {
+		const root = parse(html);
+		const slugger = new Slugger();
+
+		for (const h of root.querySelectorAll("h1, h2, h3, h4")) {
+			const slug = h.getAttribute("id") || slugger.slug(h.textContent);
+			h.setAttribute("id", slug);
+			h.innerHTML = `<a href="#${slug}">${h.innerHTML}</a>`;
+		}
+		return root.toString();
+	} catch (e) {
+		console.log(`node parse html error: ${e}`);
+	}
 }

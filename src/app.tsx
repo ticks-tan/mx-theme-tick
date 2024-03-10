@@ -1,13 +1,17 @@
 import { MetaProvider } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
-import { updateTheme } from "tailwind-material-colors/lib/updateTheme.esm";
 
 import "~/styles/app.css";
-import { useTheme } from "~/lib/theme";
 import Header from "~/components/layout/header/header";
 import Footer from "~/components/layout/footer/footer";
 import type { AppFooter, AppNavItem } from "~/config/app";
-import { ParentComponent, Suspense, onMount } from "solid-js";
+import {
+	Component,
+	ErrorBoundary,
+	ParentComponent,
+	Suspense,
+	onMount,
+} from "solid-js";
 import { generateRandomColor } from "./lib/utils";
 import { FileRoutes } from "@solidjs/start/router";
 
@@ -54,30 +58,47 @@ const demoFooterConf: AppFooter = {
 	// other: "你好，我是页脚",
 };
 
-const App : ParentComponent = props => {
+const AppErrorPage: Component<{ error: string }> = (props) => {
+	return (
+		<div class='min-h-screen flex flex-col items-center justify-center'>
+			<p class='text-3xl text-center'>
+				{"发生了一些错误，请刷新页面试试 ≧ ﹏ ≦ "}
+			</p>
+		</div>
+	);
+};
 
-	onMount(() => {
-		useTheme();
-		const priamryColor = generateRandomColor();
-		updateTheme({
-			primary: priamryColor,
-		}, "class");
-	});
+const AppContentLoading = () => {
+	return (
+		<div class='container flex-1 flex flex-col items-center justify-center'>
+			<p class='text-3cl text-center'>Loading . . .</p>
+		</div>
+	);
+};
+
+const App: ParentComponent = (props) => {
 
 	return (
+		<ErrorBoundary
+			fallback={(err) => <AppErrorPage error={err.toString()} />}
+		>
 			<MetaProvider>
 				<div class='min-h-screen flex flex-col'>
 					<Header
 						nav={demoHeaderNav}
 						title='My Blog'
-						className="sticky top-0 z-40 w-full"
+						className='sticky top-0 z-40 w-full'
 					/>
-					<Suspense>
+					<Suspense fallback={<AppContentLoading />}>
 						{props.children}
 					</Suspense>
-					<Footer config={demoFooterConf} className='footer mt-auto' />
+					<Footer
+						config={demoFooterConf}
+						className='footer mt-auto'
+					/>
 				</div>
 			</MetaProvider>
+		</ErrorBoundary>
 	);
 };
 

@@ -2,7 +2,13 @@
  * 文章详情，用于渲染Markdown
  */
 
-import { Component, For, Show, createMemo, onMount } from "solid-js";
+import {
+	Component,
+	For,
+	Show,
+	Suspense,
+	createMemo,
+} from "solid-js";
 import { unified } from "unified";
 import gfmPlugin from "remark-gfm";
 import remarkParser from "remark-parse";
@@ -11,16 +17,17 @@ import rehypeStringify from "rehype-stringify";
 import rehypeHighlight from "rehype-highlight";
 import katexPlugin from "rehype-katex";
 import { Link } from "@solidjs/meta";
-import { useMounted } from "solidjs-use";
-import { A, createAsync } from "@solidjs/router";
+import { createAsyncMemo, useMounted } from "solidjs-use";
+import { A } from "@solidjs/router";
 import type { ModelWithLiked, PostModel } from "@mx-space/api-client";
 // import Heti from "heti/js/heti-addon";
 
 import { useTheme } from "~/lib/theme";
 import { genHtmlAnchor } from "~/lib/toc";
 import { FormatData, cn } from "~/lib/utils";
-import "~/styles/post-detail.scss";
 import { Eye, FileDir, Pen, Tag, Time, Warnning } from "~/components/ui/icon";
+
+import "~/styles/post-detail.scss";
 
 interface PostDetailProps {
 	info: ModelWithLiked<PostModel>;
@@ -54,7 +61,7 @@ const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
 	const [theme] = useTheme();
 
 	// 异步处理Markdown
-	const htmlFile = createAsync(async () => {
+	const htmlFile = createAsyncMemo(async () => {
 		return await processMarkdown(info.text);
 	});
 
@@ -73,36 +80,38 @@ const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
 	return (
 		<>
 			{/* 等待组件挂载后引入样式文件 */}
-			{isMounted() && (
-				<>
-					{/* Katex样式 */}
-					<Link
-						rel='stylesheet'
-						media='print'
-						onLoad={(e) => {
-							const link = e.target as HTMLLinkElement;
-							link.media = "all";
-							link.onload = null;
-						}}
-						href='//cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css'
-					/>
-					{/* 根据当前主题模式，引入代码块样式文件 */}
-					<Show when={theme() == "light"}>
+			<Suspense>
+				{isMounted() && (
+					<>
+						{/* Katex样式 */}
 						<Link
 							rel='stylesheet'
-							media='all'
-							href='//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@0.1.4/css/catppuccin-latte.css'
+							media='print'
+							onLoad={(e) => {
+								const link = e.target as HTMLLinkElement;
+								link.media = "all";
+								link.onload = null;
+							}}
+							href='//cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css'
 						/>
-					</Show>
-					<Show when={theme() == "dark"}>
-						<Link
-							rel='stylesheet'
-							media='all'
-							href='//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@0.1.4/css/catppuccin-mocha.css'
-						/>
-					</Show>
-				</>
-			)}
+						{/* 根据当前主题模式，引入代码块样式文件 */}
+						<Show when={theme() == "light"}>
+							<Link
+								rel='stylesheet'
+								media='all'
+								href='//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@0.1.4/css/catppuccin-latte.css'
+							/>
+						</Show>
+						<Show when={theme() == "dark"}>
+							<Link
+								rel='stylesheet'
+								media='all'
+								href='//cdn.jsdelivr.net/npm/@catppuccin/highlightjs@0.1.4/css/catppuccin-mocha.css'
+							/>
+						</Show>
+					</>
+				)}
+			</Suspense>
 			<div class={cn("", className)}>
 				<div class='mx-auto w-full min-w-0'>
 					{/* 文章标题 */}

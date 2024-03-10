@@ -1,15 +1,8 @@
 /* 文章详情页相关样式 */
-@tailwind base;
-@tailwind utilities;
-@tailwind variants;
 
 @import "./heti.css";
 
 #markdown-show-box {
-	@apply text-base font-normal subpixel-antialiased leading-6 px-2;
-	@apply scroll-smooth break-words hyphens-auto;
-	@apply before:content-none before:table after:table after:content-none after:clear-both;
-
 	& > *:first-child,
 	section > *:first-child,
 	td > *:first-child {
@@ -35,7 +28,10 @@
 		content: "";
 		text-align: center;
 		font-size: 2.1rem;
-		@apply pb-10 mt-10 mx-[10%];
+		padding-bottom: 2.5rem;
+		margin-top: 2.5rem;
+		margin-left: 10%;
+		margin-right: 10%;
 	}
 
 	h2:after {
@@ -51,7 +47,8 @@
 		margin-top: 1.5rem;
 		margin-bottom: 0.5em;
 		font-size: 1.8rem;
-		@apply my-6;
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
 
 		&::before {
 			content: "";
@@ -68,10 +65,17 @@
 	}
 
 	h4 {
-		@apply text-on-background my-4 text-[1.6rem];
+		color: rgb(var(--color-on-background) / var(--tw-text-opacity));
+		margin-top: 1rem /* 16px */;
+		margin-bottom: 1rem /* 16px */;
+		font-size: 1.6rem /* 25.6px */;
 
 		&::after {
-			@apply content-none h-[1px] border-b-2 border-primary border-dashed;
+			content: "";
+			height: 1px;
+			border-bottom-width: 2px;
+			border-color: rgb(var(--color-primary) / var(--tw-border-opacity));
+			border-style: dashed;
 			padding: 1px 0 0.1em 0;
 		}
 	}
@@ -145,13 +149,13 @@
 		margin: 1rem 0;
 	}
 
-    hr {
-        @apply my-10 border-dashed;
-    }
+	hr {
+		@apply my-10 border-dashed;
+	}
 
-    a {
-        @apply text-tertiary;
-    }
+	a {
+		@apply text-tertiary;
+	}
 
 	figure {
 		@apply block text-center;

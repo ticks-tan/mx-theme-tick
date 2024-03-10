@@ -11,7 +11,6 @@ import {
 	createSignal,
 	onCleanup,
 } from "solid-js";
-import { useMounted } from "solidjs-use";
 
 import { TableOfContents } from "~/lib/toc";
 import { cn } from "~/lib/utils";
@@ -62,14 +61,12 @@ const Toc: Component<TocProps> = ({ toc, className }) => {
 	// 	});
 	// });
 
-	const isMounted = useMounted();
-
-	return isMounted ? (
+	return (
 		<div class={cn("space-y-2", className)}>
 			<p class='font-bold text-lg'>目录</p>
 			<Tree tree={toc} activeItem={activeId()} />
 		</div>
-	) : null;
+	);
 };
 
 function useActiveItem(itemIds: Accessor<(string | undefined)[]>) {
@@ -131,10 +128,11 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
 							<a
 								href={item.url}
 								class={cn(
-									"inline-block no-underline",
+									"inline-block no-underline text-sm",
 									item.url === `#${activeItem}`
-										? "font-medium text-primary"
-										: "text-sm text-on-background"
+										? "font-bold text-primary"
+										: "text-on-background",
+									"hover:font-bold hover:text-primary"
 								)}
 							>
 								{item.title}

@@ -2,14 +2,13 @@
  * 主页最新文章组件
  */
 
-import { Component, For, Show, Suspense } from "solid-js";
+import { Component, For, Show, Suspense, onMount } from "solid-js";
 import { A, cache, createAsync } from "@solidjs/router";
 
 import { MXApi } from "~/lib/request";
 import { FormatData, cn } from "~/lib/utils";
 
 const fetchRecentPostList = cache(async () => {
-	"use server";
 	return await MXApi.post.getList(1, 10, {
 		sortBy: "created",
 		sortOrder: -1,

@@ -11,7 +11,6 @@ interface PostsPageUrlParams {
 }
 
 const fetchPagePostList = cache(async (page: number, limit: number) => {
-	"use server";
 	return await MXApi.post.getList(page, limit, {
 		sortBy: "modified",
 		sortOrder: -1,

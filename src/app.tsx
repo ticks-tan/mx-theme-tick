@@ -61,7 +61,7 @@ const demoFooterConf: AppFooter = {
 const AppErrorPage: Component<{ error: string }> = (props) => {
 	return (
 		<div class='min-h-screen flex flex-col items-center justify-center'>
-			<p class='text-3xl text-center'>
+			<p class='text-3xl text-center text-error'>
 				{"发生了一些错误，请刷新页面试试 ≧ ﹏ ≦ "}
 			</p>
 		</div>
@@ -104,7 +104,7 @@ const App: ParentComponent = (props) => {
 
 export default function MainApp() {
 	return (
-		<Router root={App}>
+		<Router root={App} explicitLinks={true}>
 			<FileRoutes />
 		</Router>
 	);

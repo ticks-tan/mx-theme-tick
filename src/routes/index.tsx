@@ -1,5 +1,5 @@
 import { A } from "@solidjs/router";
-import { For } from "solid-js";
+import { ErrorBoundary, For } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { cn } from "~/lib/utils";
 import { Title } from "@solidjs/meta";
@@ -87,6 +87,7 @@ export default function Home() {
 													href={it.link}
 													target='_blank'
 													class='underline hover:text-primary'
+													noScroll={true}
 												>
 													@{it.text}
 												</A>
@@ -103,7 +104,9 @@ export default function Home() {
 				</div>
 				<div class="mt-[80px] space-y-4">
 					<h1 class=" text-on-surface-variant">最近的文章</h1>
-					<RecentPostList />
+					<ErrorBoundary fallback={<p class="text-error">{"发生了一些错误，你可以刷新页面试试 (っ °Д °;)っ "}</p>}>
+						<RecentPostList />
+					</ErrorBoundary>
 				</div>
 			</MainBox>
 			<div></div>

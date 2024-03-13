@@ -35,6 +35,8 @@ const twConfig : Config = {
 
 const config =  withMaterialColors(twConfig, {
 	primary: "#000000",
+}, {
+	extend: true,
 });
 
 export default config;

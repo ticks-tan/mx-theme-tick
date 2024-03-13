@@ -1,9 +1,9 @@
 import { ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { twJoin } from "tailwind-merge";
 import removeMarkdown from "remove-markdown";
 
 export function cn(...inputs: ClassValue[]) {
-	return twMerge(clsx(inputs));
+	return twJoin(clsx(inputs));
 }
 
 export function FormatData(input: string | number | Date) : string {

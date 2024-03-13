@@ -15,13 +15,8 @@ import {
 	ErrorBoundary,
 	For,
 	Show,
-	Suspense,
-	createEffect,
-	createMemo,
-	createResource,
 	createSignal,
 	lazy,
-	onMount,
 } from "solid-js";
 import { useClipboard, useBrowserLocation } from "solidjs-use";
 
@@ -29,7 +24,7 @@ import MainBox from "~/components/layout/main/main-box";
 import HorizontalDivider from "~/components/ui/horizontal-divider";
 // 异步导入Markdown组件和目录组件
 const MDPostShow = lazy(() => import("~/components/pages/posts/post-detail"));
-const MDToc = lazy(() => import("~/components/ui/toc"));
+import MDToc from "~/components/ui/toc";
 
 import { MXApi } from "~/lib/request";
 
@@ -78,10 +73,12 @@ export default function PostDetailPage() {
 							/>
 							{/* 目录 */}
 							<div class='hidden text-sm lg:block'>
+								<ErrorBoundary fallback>
 									<div class='sticky top-16 -mt-10 max-h-[calc(var(--vh)-4rem)] overflow-y-auto pt-10'>
 										<MDToc tocText={postQuery().text}/>
 									</div>
-								</div>
+								</ErrorBoundary>
+							</div>
 						</main>
 						{/* 相关阅读 */}
 						<Show when={postQuery().related.length}>

@@ -71,7 +71,7 @@ const AppErrorPage: Component<{ error: string }> = (props) => {
 const AppContentLoading = () => {
 	return (
 		<div class='container flex-1 flex flex-col items-center justify-center'>
-			<p class='text-3cl text-center'>Loading . . .</p>
+			<p class='text-3cl text-center'>加载中 . . .</p>
 		</div>
 	);
 };

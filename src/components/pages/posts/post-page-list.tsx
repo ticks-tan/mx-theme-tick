@@ -34,31 +34,39 @@ export default function PostPageList() {
 			: [];
 	});
 
+	const NextPage = () => {
+		setParams({
+			page: page() + 1,
+		});
+	};
+	const PrevPage = () => {
+		setParams({
+			page: page() - 1,
+		});
+	};
+
 	return (
 		<>
 			<Suspense fallback={<div class='text-xl mt-8'>加载中 (✿◠‿◠)</div>}>
-				{/* <Show when={postQuery()} fallback={<div class='text-xl mt-8'>加载中 (✿◠‿◠)</div>}> */}
 				<h1 class='text-xl mb-8'>{`当前共有 ${
 					postQuery()?.pagination.total
 				} 篇文章，稳定发挥中`}</h1>
 				<ul class='grid grid-cols-1 gap-8'>
-					<For each={postData()}>
-						{(post, idx) => {
-							return (
-								<li>
-									<PostItem post={post} className='p-2' />
-								</li>
-							);
-						}}
-					</For>
+					<Suspense>
+						<For each={postData()}>
+							{(post, idx) => {
+								return (
+									<li>
+										<PostItem post={post} className='p-2' />
+									</li>
+								);
+							}}
+						</For>
+					</Suspense>
 					<li class='relative p-4'>
 						{postQuery()?.pagination.hasPrevPage && (
 							<button
-								onClick={() =>
-									setParams({
-										page: page() - 1,
-									})
-								}
+								onClick={PrevPage}
 								class='float-start text-lg underline transition hover:text-primary'
 							>
 								上一页
@@ -66,11 +74,7 @@ export default function PostPageList() {
 						)}
 						{postQuery()?.pagination.hasNextPage && (
 							<button
-								onClick={() =>
-									setParams({
-										page: page() + 1,
-									})
-								}
+								onClick={NextPage}
 								class='float-end text-lg underline transition hover:text-primary'
 							>
 								下一页

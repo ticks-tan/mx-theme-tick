@@ -17,8 +17,8 @@ import rehypeStringify from "rehype-stringify";
 import rehypeHighlight from "rehype-highlight";
 import katexPlugin from "rehype-katex";
 import { Link } from "@solidjs/meta";
-import { createAsyncMemo, useMounted } from "solidjs-use";
-import { A } from "@solidjs/router";
+import { useMounted } from "solidjs-use";
+import { A, createAsync } from "@solidjs/router";
 import type { ModelWithLiked, PostModel } from "@mx-space/api-client";
 // import Heti from "heti/js/heti-addon";
 
@@ -61,9 +61,7 @@ const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
 	const [theme] = useTheme();
 
 	// 异步处理Markdown
-	const htmlFile = createAsyncMemo(async () => {
-		return await processMarkdown(info.text);
-	});
+	const htmlFile = createAsync(() => processMarkdown(info.text));
 
 	// 文章是否过期
 	const postOld = createMemo(() => {
@@ -159,6 +157,7 @@ const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
 							</div>
 						</Show>
 					</div>
+					<Suspense fallback={<p class="text-3xl text-center">解析中. . .</p>}>
 					{/* 过时提醒 */}
 					<Show when={postOld()}>
 						<OldNotice oldDate={FormatData(info.modified)} />
@@ -169,6 +168,7 @@ const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
 						class='heti'
 						innerHTML={htmlFile()}
 					></div>
+					</Suspense>
 				</div>
 			</div>
 		</>

@@ -23,17 +23,15 @@ import {
 	lazy,
 	onMount,
 } from "solid-js";
-import { createAsyncMemo, useClipboard, useBrowserLocation } from "solidjs-use";
+import { useClipboard, useBrowserLocation } from "solidjs-use";
 
 import MainBox from "~/components/layout/main/main-box";
 import HorizontalDivider from "~/components/ui/horizontal-divider";
-import { getTableOfContents } from "~/lib/toc";
-
 // 异步导入Markdown组件和目录组件
 const MDPostShow = lazy(() => import("~/components/pages/posts/post-detail"));
 const MDToc = lazy(() => import("~/components/ui/toc"));
+
 import { MXApi } from "~/lib/request";
-import { NoHydration } from "solid-js/web";
 
 const fetchPostDetail = cache(async (category: string, slug: string) => {
 	// 请求博客文件
@@ -56,18 +54,14 @@ export default function PostDetailPage() {
 	// 文章链接信息
 	const [params] = createSignal<ParamsType>(useParams());
 	const location = useBrowserLocation();
-	const postLink = createMemo(() => location.href());
+
 
 	const postQuery = createAsync(
 		() => fetchPostDetail(params().category, params().slug)
 	);
 
-	const tocItems = createAsyncMemo(async() => {
-		return await getTableOfContents(postQuery().text);
-	}, null);
-
-	const { text, copy, copied, isSupported } = useClipboard({
-		source: postLink,
+	const { text : postLink, copy } = useClipboard({
+		source: location.href,
 	});
 
 	return (
@@ -85,9 +79,7 @@ export default function PostDetailPage() {
 							{/* 目录 */}
 							<div class='hidden text-sm lg:block'>
 									<div class='sticky top-16 -mt-10 max-h-[calc(var(--vh)-4rem)] overflow-y-auto pt-10'>
-										<Show when={tocItems()}>
-											<MDToc toc={tocItems()}/>
-										</Show>
+										<MDToc tocText={postQuery().text}/>
 									</div>
 								</div>
 						</main>
@@ -99,11 +91,11 @@ export default function PostDetailPage() {
 									<For each={postQuery().related}>
 										{(item) => (
 											<li class='ml-8 underline'>
-												<A
+												<a
 													href={`/posts/${item.category.slug}/${item.slug}`}
 												>
 													{item.title}
-												</A>
+												</a>
 											</li>
 										)}
 									</For>

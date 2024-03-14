@@ -24,7 +24,7 @@ const ThemeToggle : Component<ThemeToggleProps> = ({
             </div>
             <span>|</span>
             <div onClick={() => {toggle(true);}}>
-                <Moon className={cn("w-5 h-5 cursor-pointer", theme() == "dark" ? "fill-primary" : "fill-on-background")}/>
+                <Moon className={cn("w-4 h-4 cursor-pointer", theme() == "dark" ? "fill-primary" : "fill-on-background")}/>
             </div>
         </div>
     );

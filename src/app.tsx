@@ -20,16 +20,16 @@ const demoHeaderNav: AppNavItem[] = [
 	},
 	{
 		href: "/notes",
-		text: "随记",
-	},
-	{
-		href: "/timeline",
-		text: "归档",
+		text: "随笔",
 	},
 	{
 		href: "/projects",
 		text: "项目",
 	},
+	{
+		href: "/about",
+		text: "关于"
+	}
 ];
 
 const demoFooterNav: AppNavItem[] = [
@@ -44,10 +44,6 @@ const demoFooterNav: AppNavItem[] = [
 	{
 		href: "/recently",
 		text: "动态",
-	},
-	{
-		href: "/about",
-		text: "关于",
 	},
 ];
 const demoFooterConf: AppFooter = {

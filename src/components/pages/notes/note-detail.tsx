@@ -43,4 +43,6 @@ const NoteDetailShow : Component<NoteDetailShowProps> = ({
         </div>
         </Suspense>
     );
-}
+};
+
+export default NoteDetailShow;

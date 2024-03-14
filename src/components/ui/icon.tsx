@@ -27,7 +27,7 @@ export const Sun: Component<AppIconProps> = ({
 };
 
 export const Moon: Component<AppIconProps> = ({
-	viewBox = "0 0 28 28",
+	viewBox = "0 0 24 24",
 	className = "w-4 h-4",
 }) => {
 	return (

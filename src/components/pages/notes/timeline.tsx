@@ -21,14 +21,15 @@ interface NoteTimelineProps {
 
 const fetchPageNotes = cache(async (page: number) => {
 	return await MXApi.note.getList(page, 50, {
-		sortBy: "modified",
+		select: ["title", "+topic", "topicId", "nid", "location", "created"],
+		sortBy: "created",
 		sortOrder: -1,
 	});
-}, "query-note-page-sort-modify");
+}, "query-note-page-sort-created");
 
 type NoteItemType = Pick<
 	NoteModel,
-	"title" | "topic" | "nid" | "location" | "modified"
+	"title" | "topic" | "nid" | "location" | "created"
 >;
 
 const NoteTimeLine: Component<NoteTimelineProps> = ({ className }) => {
@@ -52,7 +53,7 @@ const NoteTimeLine: Component<NoteTimelineProps> = ({ className }) => {
 						topic: v.topic,
 						nid: v.nid,
 						location: v.location,
-						modified: v.modified,
+						created: v.created,
 					} as NoteItemType;
 			  })
 			: [];
@@ -63,22 +64,33 @@ const NoteTimeLine: Component<NoteTimelineProps> = ({ className }) => {
 			<ol class={cn("relative", className)}>
 				<For each={mapNotes()}>
 					{(item) => (
-						<li class={cn("mb-4 ms-4")}>
+						<li
+							class={cn(
+								"py-1 ms-2 relative",
+								"before:bottom-0 before:absolute before:-start-4 before:border-l before:border-primary",
+								"after:-start-5 after:top-1/2 after:w-2 after:h-2 after:rounded-full after:absolute after:bg-primary",
+								"first:before:top-1/2 last:before:bottom-1/2 last:before:top-0 first:last:before:border-s-0"
+							)}
+						>
 							<time class='mb-1 text-sm font-normal leading-none text-on-background/60'>
-								{FormatData(item.modified)}
+								{FormatData(item.created)}
 							</time>
-							<A
-								href={`/notes/${item.nid}`}
-								class='flex items-start gap-16'
-							>
+							<div class='flex items-center justify-between'>
 								<div class='flex gap-1 items-center'>
-									<p>{item.title}</p>
+									<A
+										href={`/notes/${item.nid}`}
+										class='hover:decoration-primary hover:underline'
+									>
+										{item.title}
+									</A>
 									<span class='text-sm'>
 										{item?.location}
 									</span>
 								</div>
-								<div>{item.topic?.name}</div>
-							</A>
+								<div class='hidden md:inline content-end'>
+									{item.topic?.name}
+								</div>
+							</div>
 						</li>
 					)}
 				</For>

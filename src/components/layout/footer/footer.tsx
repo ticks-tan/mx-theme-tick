@@ -6,7 +6,7 @@ import { A, cache, createAsync } from "@solidjs/router";
 import { Component, For } from "solid-js";
 
 
-import { AppFooter, AppNavItem } from "~/config/app";
+import { AppFooter } from "~/config/app";
 import { cn } from "~/lib/utils";
 
 interface FooterProps {

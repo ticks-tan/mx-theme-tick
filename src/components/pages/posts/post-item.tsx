@@ -29,17 +29,17 @@ const PostItem: Component<PostItemProps> = ({ post, className }) => {
 				<div class='flex items-center gap-4 text-sm text-outline'>
 					{/* 时间 */}
 					<div class='flex items-center'>
-						<Time class='w-4 h-4 mr-1' />
+						<Time className='w-4 h-4 mr-1' />
 						<time>{FormatData(post.modified)}</time>
 					</div>
 					{/* 分类 */}
 					<div class='flex items-center'>
-						<FileDir class='w-4 h-4 mr-1' />
+						<FileDir className='w-4 h-4 mr-1' />
 						<span>{post.category.name}</span>
 					</div>
 					{/* 观看数 */}
 					<div class="flex items-center">
-						<Eye class="w-4 h-4 mr-1"/>
+						<Eye className="w-4 h-4 mr-1"/>
 						<span>{post.count.read}</span>
 					</div>
 				</div>

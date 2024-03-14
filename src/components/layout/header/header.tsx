@@ -1,9 +1,9 @@
 import { A, useLocation } from "@solidjs/router";
-import { Component, For, createEffect, createSignal } from "solid-js";
+import { Component, For, Show, createEffect, createSignal } from "solid-js";
 import { useWindowScroll, useElementVisibility, useMediaQuery } from "solidjs-use";
 
 
-import { Menu } from "~/components/ui/icon";
+import { Close, Menu } from "~/components/ui/icon";
 import ThemeToggle from "~/components/ui/theme-toggle";
 import { AppNavItem } from "~/config/app";
 import { cn } from "~/lib/utils";
@@ -72,7 +72,12 @@ const AppHeader : Component<AppHeaderProps> = ({
 				aria-expanded='true'
                 onClick={toggleShowMenu}
             >
-                <Menu class={cn("w-5 h-5")} />
+                <Show when={!showMenu()}>
+                    <Menu className={cn("w-5 h-5")} />
+                </Show>
+                <Show when={showMenu()}>
+                    <Close className="w-5 h-5"/>
+                </Show>
             </button>
             {/* MobileMenu */}
             {showMenu() && (

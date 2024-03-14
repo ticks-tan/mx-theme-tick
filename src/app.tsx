@@ -10,9 +10,7 @@ import {
 	ErrorBoundary,
 	ParentComponent,
 	Suspense,
-	onMount,
 } from "solid-js";
-import { generateRandomColor } from "./lib/utils";
 import { FileRoutes } from "@solidjs/start/router";
 
 const demoHeaderNav: AppNavItem[] = [

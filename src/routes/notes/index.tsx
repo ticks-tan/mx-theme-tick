@@ -11,7 +11,7 @@ import NoteTimeLine from "~/components/pages/notes/timeline";
 export default function NoteListPage() {
 	return (
 		<>
-            <Title>博客 | 日记列表</Title>
+            <Title>博客 | 随笔列表</Title>
 			<MainBox>
 				<div class="mx-8 md:mx-16 lg:mx-32 mt-16">
                 <p class="text-3xl mb-4 font-bold">我的随笔</p>

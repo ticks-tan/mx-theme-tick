@@ -118,17 +118,17 @@ const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
 					<div class='flex items-center justify-center gap-4 mt-8'>
 						{/* 文章发布时间 */}
 						<div class='inline-flex items-center justify-center'>
-							<Time class='h-4 w-4 mr-2' />
+							<Time className='h-4 w-4 mr-2' />
 							<time>{FormatData(info.created)}</time>
 						</div>
 						{/* 文章修改时间 */}
 						<div class='inline-flex items-center justify-center'>
-							<Pen class='h-4 w-4 mr-2' />
+							<Pen className='h-4 w-4 mr-2' />
 							<time>{FormatData(info.modified)}</time>
 						</div>
 						{/* 文章观看数 */}
 						<div class='inline-flex items-center justify-center'>
-							<Eye class='h-4 w-4 mr-2' />
+							<Eye className='h-4 w-4 mr-2' />
 							<span>{info.count.read}</span>
 						</div>
 					</div>
@@ -136,7 +136,7 @@ const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
 					<div class='flex flex-wrap items-center justify-center gap-4 mt-4 mb-32'>
 						{/* 分类 */}
 						<div class='inline-flex items-center justify-center'>
-							<FileDir class='h-4 w-4 mr-2' />
+							<FileDir className='h-4 w-4 mr-2' />
 							<span>
 								<A href={`/category/${info.category.slug}/`}>
 									{info.category.name}
@@ -146,7 +146,7 @@ const PostDetail: Component<PostDetailProps> = ({ className, info }) => {
 						{/* 标签 */}
 						<Show when={info.tags.length}>
 							<div class='inline-flex items-center justify-center'>
-								<Tag class='w-4 h-4 mr-2' />
+								<Tag className='w-4 h-4 mr-2' />
 								<For each={info.tags}>
 									{(tag) => (
 										<span>
@@ -191,7 +191,7 @@ const OldNotice: Component<OldNoticeProps> = ({ oldDate }) => {
 				"before:content-none"
 			)}
 		>
-			<Warnning class='w-8 h-8 mr-2' />
+			<Warnning className='w-8 h-8 mr-2' />
 			{`本文最后修改于 ${oldDate} ，其中信息可能已经过时，请酌情参考！`}
 		</blockquote>
 	);
